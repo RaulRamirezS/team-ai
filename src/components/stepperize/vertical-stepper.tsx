@@ -2,8 +2,9 @@
 
 import { defineStepper } from "@stepperize/react";
 import { Check, Plus, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { PROMPT_SUBMIT_EVENT } from "@/components/ai-prompt-section";
 import type { AiResponseContext } from "@/components/ai-response-panel";
 import { Button } from "@/components/ui/button";
 import {
@@ -575,6 +576,17 @@ export function VerticalStepperBlock({
     SpecialRequestFocus[]
   >([]);
   const [specialRequestDetails, setSpecialRequestDetails] = useState("");
+
+  // Prefill the final step with the project need typed in the hero prompt box.
+  useEffect(() => {
+    const onPromptSubmit = (event: Event) => {
+      const prompt = (event as CustomEvent<string>).detail?.trim();
+      if (prompt) setSpecialRequestDetails(prompt);
+    };
+    window.addEventListener(PROMPT_SUBMIT_EVENT, onPromptSubmit);
+    return () =>
+      window.removeEventListener(PROMPT_SUBMIT_EVENT, onPromptSubmit);
+  }, []);
 
   const canContinueIndustry = isSelectWithOtherComplete(
     industry,

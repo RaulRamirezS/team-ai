@@ -1,4 +1,5 @@
 import { AiChangeSection } from "@/components/ai-change-section";
+import { AiPromptSection } from "@/components/ai-prompt-section";
 import { FaqSection } from "@/components/faq-section";
 import { HeroSection } from "@/components/hero-section";
 import { HomePageNumbers } from "@/components/home-page-numbers";
@@ -9,6 +10,7 @@ export default function Home() {
   return (
     <main className="flex flex-1 flex-col">
       <HeroSection />
+      <AiPromptSection />
       <AiChangeSection />
       <StepperSection />
       <HomePageNumbers />

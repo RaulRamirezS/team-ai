@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import {
   Card,
-  Carousel,
+  CardGrid,
   type Card as CardType,
 } from "@/components/ui/apple-cards-carousel";
 import { getAssetUrl } from "@/lib/assets";
@@ -148,8 +148,18 @@ const data: CardType[] = [
   },
 ];
 
+// Until each offering has its own solution finder (data, cybersecurity, ...),
+// every card points to the shared assessment bot. Set `cta.href` on a card in
+// `data` to route it to its dedicated bot instead.
+const DEFAULT_CTA: NonNullable<CardType["cta"]> = {
+  label: "Find solutions to fit your specific needs",
+  href: "#find-solutions",
+};
+
 export function AiChangeSection() {
-  const cards = data.map((card) => <Card key={card.title} card={card} />);
+  const cards = data.map((card) => (
+    <Card key={card.title} card={{ ...card, cta: card.cta ?? DEFAULT_CTA }} />
+  ));
 
   return (
     <section className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#0F0E0F] px-6 py-16 lg:px-10 lg:py-24">
@@ -169,7 +179,7 @@ export function AiChangeSection() {
         business solutions—not just more code.
       </h3>
       <div className="relative z-10 w-full">
-        <Carousel items={cards} />
+        <CardGrid items={cards} />
       </div>
       <p className="relative z-10 mt-10 max-w-[1440px] text-center text-[0.9375rem] font-bold leading-6 text-[#FAF8F9] lg:mt-16 lg:text-[2rem] lg:leading-[2.5rem]">
         Build more. Modernize faster. Innovate continuously.
