@@ -1,100 +1,93 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 
-import { AnimatedImageShader } from "@/components/animated-image-shader";
-import { Button } from "@/components/ui/button";
+import HomeVisual from "@/components/home-visual";
+import ShaderBackground from "@/components/shader-background";
+import { GlowButton } from "@/components/ui/glow-button";
 
+// Layout, aurora shader background, isometric visual and glow button are ported
+// from the TEAM Solutions site home hero. Copy is this site's existing content.
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 40 },
   visible: (delay: number) => ({
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.65,
-      delay,
-      ease: [0.22, 1, 0.36, 1] as const,
-    },
+    transition: { duration: 0.4, delay, ease: "easeOut" as const },
   }),
 };
 
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1] as const },
+const PROOF = [
+  { value: "20+", label: "years of enterprise technology delivery" },
+  {
+    value: "ISO 27001",
+    label: "ISO/IEC 27001:2022 certified at all locations",
   },
-};
+  { value: "Claude", label: "Certified Services Partner (Anthropic)" },
+] as const;
 
 export function HeroSection() {
   return (
-    <section className="relative isolate min-h-[calc(100svh-5rem)] overflow-hidden bg-black text-white">
-      <motion.div
-        className="absolute inset-0 -z-10"
-        initial="hidden"
-        animate="visible"
-        variants={fadeIn}
-      >
-        <Image
-          src="/hero.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-[72%_center] sm:object-center"
-        />
-        <AnimatedImageShader
-          src="/hero.webp"
-          className="absolute inset-0 size-full"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/70"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-black/50 to-transparent"
-        />
-      </motion.div>
+    <section className="relative overflow-hidden bg-black">
+      <ShaderBackground />
 
-      <div className="relative mx-auto flex min-h-[calc(100svh-5rem)] w-full max-w-[1440px] flex-col px-6 pb-10 pt-16 sm:pb-14 sm:pt-20 lg:px-10 lg:pb-16 lg:pt-24">
-        <div className="flex flex-1 flex-col items-center justify-center text-center">
-          <motion.h1
-            custom={0.05}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="max-w-4xl text-[clamp(1.75rem,4vw,3.25rem)] font-bold leading-[1.05] tracking-tight"
-          >
-            Transforming Complex Business Challenges into AI Software Solutions
-          </motion.h1>
-
-          <motion.h2
-            custom={0.14}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="mt-5 max-w-2xl text-4xl font-medium leading-snug text-white/90 sm:text-xl"
-          >
-             Driving your business growth with exceptional speed and exceptional
-             quality, at competitive pricing.
-          </motion.h2>
-
-          <motion.div
-            custom={0.3}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="mt-8"
-          >
-            <Button
-              className="h-11 rounded-none bg-[#F0C41A] px-7 text-sm font-bold tracking-[0.14em] text-black hover:bg-[#F0C41A]/90"
+      <div className="relative mx-auto w-full max-w-[1280px] px-6 py-20 md:py-28">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+            <motion.h1
+              custom={0}
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              className="mb-6 max-w-5xl text-balance text-[1.75rem] font-bold leading-[2.5rem] text-white lg:text-[2.75rem] lg:leading-[3.25rem]"
             >
-              TALK TO A SOLUTION EXPERT
-            </Button>
-          </motion.div>
+              Transforming Complex Business Challenges into AI Software Solutions
+            </motion.h1>
+            <motion.h2
+              custom={0.15}
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              className="max-w-xl text-pretty text-[0.9375rem] leading-relaxed text-white/70 md:text-[1.0625rem] md:leading-7"
+            >
+              Driving your business growth with exceptional speed and exceptional
+              quality, at competitive pricing.
+            </motion.h2>
+            <motion.div
+              custom={0.3}
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start"
+            >
+              <GlowButton href="#find-solutions">TALK TO A SOLUTION EXPERT</GlowButton>
+            </motion.div>
+          </div>
+
+          <HomeVisual />
         </div>
+
+        <motion.ul
+          custom={0.45}
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          className="mt-12 grid w-full grid-cols-1 gap-4 md:mt-16 md:grid-cols-3"
+        >
+          {PROOF.map((item) => (
+            <li
+              key={item.label}
+              className="flex items-center gap-4 rounded-2xl border border-[#9C9299]/40 bg-white/[0.08] px-6 py-4 text-left shadow-[0_4px_24px_rgba(0,0,0,0.2)] backdrop-blur-xl"
+            >
+              <span className="shrink-0 text-[22px] font-bold leading-none text-[#FDBE00]">
+                {item.value}
+              </span>
+              <span className="text-xs leading-snug text-white/60">
+                {item.label}
+              </span>
+            </li>
+          ))}
+        </motion.ul>
       </div>
     </section>
   );
